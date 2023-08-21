@@ -1,0 +1,7 @@
+1;Sebastian;Bach;Germany
+2;Amadeus;Mozart;Austria
+3;Antonio;Vivaldi;Italia
+4;Louis;Armstrong;USA
+5;Ray;Charles;USA
+6;John;Lennon;England
+7;Rory;Gallagher;Ireland
