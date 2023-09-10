@@ -1,11 +1,8 @@
 package org.example;
 
-import org.example.model.Basket;
 import org.example.model.User;
 import org.example.services.*;
 import org.example.services.implementations.*;
-
-import java.util.List;
 
 public class Top {
     // service //
@@ -14,31 +11,32 @@ public class Top {
     public static final PerformerService performerService = new PerformerServiceImpl();
 
     public static final BasketService basketService = new BasketServiceImpl();
-    public static final BasketCompositionService basketCompositionService = new BasketCompositionServiceImpl();
+    public static final CompositionBasketRelationService compositionBasketRelationService = new CompositionBasketRelationServiceImpl();
     public static final UserService userService = new UserServiceImpl();
 
-    //----------------------------------
-    // LOGIC
-    //----------------------------------
-    public static int idCurrentUser = 0;
+    public static User user = new User();
+    //public static User user = new User(2,"user2","2",StringValues.UserType.CUSTOMER);
+    //public static User user = new User(7,"admin1","1",StringValues.UserType.ADMIN);
+
+    public static boolean admin(){
+        return user.getType().equals(StringValues.UserType.ADMIN); }
+    public static boolean customer(){ return user.getType().equals(StringValues.UserType.CUSTOMER); }
+
     public static boolean entry(){
-        if(idCurrentUser >0){
-            return true;
+        if(user.getType().equals("")){
+            return false;
         }
-        return false;
+        return true;
     }
     public static boolean signIn(String login,String password){
         for (User user : userService.getAll()) {
-            if (login.equals(user.getUsername()) && password.equals(user.getPassword())) {
-                idCurrentUser = user.getId();
+            if (login.equals(user.getName()) && password.equals(user.getPassword())) {
+                Top.user = user;
                 return true;
             }
         }
 
         return false;
-    }
-    public static List<Basket> getCurrentBasket(){
-        return basketService.getAllByUserId(idCurrentUser);
     }
 
 }

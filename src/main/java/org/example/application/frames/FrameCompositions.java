@@ -2,21 +2,31 @@ package org.example.application.frames;
 
 import org.example.Helper;
 import org.example.application.Input;
+import org.example.application.frames.helpers.FrameImitation;
+import org.example.application.frames.helpers.ListCompositionsPrint;
 import org.example.model.Composition;
 import org.example.Top;
 
-public class FrameCompositions extends FrameImitation{
+import java.util.List;
+
+public class FrameCompositions extends FrameImitation {
     @Override
     public FrameImitation start(Input input) {
-        Helper.printLine("СПИСОК КОМПОЗИЦИЙ");
-        for (Composition composition: Top.compositionService.getAll()){
-            System.out.println(composition.getId() + " " + composition.getName());
+        List<Composition> compositions = Top.compositionService.getAll();
+        ListCompositionsPrint.print("СПИСОК КОМПОЗИЦИЙ",compositions);
+
+        Helper.printLine("Введите номер композиции что бы произвести операции с ней");
+        if(Top.admin()){
+            Helper.printLine("Нажмите n что бы добавить новую композицию");
         }
 
-        Helper.printLine("нажмите номер композиции что бы получить более подробную информацию о ней");
-        int i = input.start().getNextInt();
-        if(i>0){
-            return new FrameComposition(i);
+        input.start();
+
+        if(input.getNextInt()>0){
+            return new FrameComposition(compositions.get(input.getNextInt() - 1));
+        }
+        if(Top.admin() && input.getNextString().equals("n")){
+            return new FrameAddNewComposition();
         }
         return null;
     }

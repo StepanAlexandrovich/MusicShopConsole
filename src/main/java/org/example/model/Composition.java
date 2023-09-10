@@ -1,21 +1,26 @@
 package org.example.model;
 
+import org.example.Top;
+
 import java.time.LocalDate;
 
 public class Composition implements ObjectWithId{
     private int id;
     private String name;
-    private LocalDate dataRelease;
+    private LocalDate dateRelease;
     private double duration;
     private double price;
     private int genreId;
     private int performerId;
-    // TODO: 10.08.2023 добавить цену
-    public Composition(){};
+
+
+    private String genreName = "";
+    private String performerName = "";
+
     public Composition(
             int id,
             String name,
-            LocalDate dataRelease,
+            LocalDate dateRelease,
             double duration,
             double price,
             int genreId,
@@ -23,7 +28,7 @@ public class Composition implements ObjectWithId{
     ) {
         this.id = id;
         this.name = name;
-        this.dataRelease = dataRelease;
+        this.dateRelease = dateRelease;
         this.duration = duration;
         this.price = price;
         this.genreId = genreId;
@@ -36,28 +41,33 @@ public class Composition implements ObjectWithId{
     public String getName() {
         return name;
     }
-    public LocalDate getDataRelease() {
-        return dataRelease;
+    public LocalDate getDateRelease() {
+        return dateRelease;
     }
     public double getDuration() {
         return duration;
     }
-    public int getGenreId() {
-        return genreId;
+
+    public Genre getGenre() {
+        return Top.genreService.getById(genreId);
     }
-    public int getPerformerId() {
-        return performerId;
-    }
+    public Performer getPerformer() { return Top.performerService.getById(performerId); }
+
+    public int getGenreId() { return genreId; }
+
+    public int getPerformerId() { return performerId; }
+
+    public void setGenreName(String genreName) { this.genreName = genreName; }
+    public void setPerformerName(String performerName) { this.performerName = performerName; }
 
     @Override
     public String toString() {
         return "Composition{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", dataRelease=" + dataRelease +
+                " name='" + name + '\'' +
+                ", dataRelease=" + dateRelease +
                 ", duration=" + duration +
-                ", genreId=" + genreId +
-                ", performerId=" + performerId +
+                ", genre = " + genreName +
+                ", performer = " + performerName +
                 '}';
     }
 

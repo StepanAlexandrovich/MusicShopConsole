@@ -8,5 +8,9 @@ import java.util.List;
 public interface PerformerService {
     List<Performer> getAll();
     Performer getById(int id);
+    Performer getByName(String name);
+
+    Performer add(String firstName, String middleName, String lastName,String description,String country);
+    Performer deleteById(int id);
 }
 

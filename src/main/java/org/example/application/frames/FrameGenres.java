@@ -2,22 +2,32 @@ package org.example.application.frames;
 
 import org.example.Helper;
 import org.example.application.Input;
+import org.example.application.frames.helpers.FrameImitation;
 import org.example.model.Genre;
 import org.example.Top;
-public class FrameGenres extends FrameImitation{
+
+import java.util.List;
+
+public class FrameGenres extends FrameImitation {
     @Override
     public FrameImitation start(Input input) {
-        System.out.println("СПИСОК ЖАНРОВ");
-        for (Genre genre: Top.genreService.getAll()){
-            System.out.println(genre.getId()+" "+genre.getName());
-        }
-        Helper.printLine("Выберите жанр что бы получить больше информации о нём");
+        List<Genre> genres = Top.genreService.getAll();
+        Helper.printList("СПИСОК ЖАНРОВ",genres);
 
-        int i = input.start().getNextInt();
-        if(i>0){
-            return new FrameGenre(i);
+        Helper.printLine("Введите номер жанра что бы получить больше информации о нём");
+        if(Top.admin()){
+            Helper.printLine("Нажмите n что бы добавить новый жанр");
         }
-        return null;
+
+        input.start();
+
+        if(input.getNextInt()>0){
+            return new FrameGenre(genres.get(input.getNextInt() - 1));
+        }
+        if(Top.admin() && input.getNextString().equals("n")){
+            return new FrameAddNewGenre();
+        }
+        return  null;
     }
 
 }

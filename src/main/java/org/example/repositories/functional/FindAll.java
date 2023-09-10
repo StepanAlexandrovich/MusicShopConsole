@@ -1,4 +1,4 @@
-package org.example.repositories;
+package org.example.repositories.functional;
 
 import java.util.List;
 

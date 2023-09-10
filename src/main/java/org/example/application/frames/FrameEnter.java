@@ -1,39 +1,38 @@
 package org.example.application.frames;
 
 import org.example.Helper;
-import org.example.application.Input;
 import org.example.Top;
+import org.example.application.frames.helpers.FrameImitation;
+import org.example.application.frames.helpers.FramePassage;
 
 import java.util.Scanner;
 
-public class FrameEnter extends FrameImitation{
+public class FrameEnter extends FramePassage {
+    private String login;
+    private String password;
+    @Override
+    public void startInput(Scanner scanner) {
+        Helper.printLine("введите логин");
+        login = scanner.next();
+        Helper.printLine("введите пароль");
+        password = scanner.next();
+    }
 
     @Override
-    public FrameImitation start(Input input) {
-        Scanner scanner = new Scanner(System.in);
+    public boolean result() {
+        return Top.signIn(login,password);
+    }
 
-        boolean b = true;
-        while (b) {
-
-            Helper.printLine("введите логин");
-            String login = scanner.next();
-            Helper.printLine("введите пароль");
-            String password = scanner.next();
-
-            if(Top.signIn(login,password)){
-                return new FrameInformation("Вы вошли в систему, теперь вам доступно больше опций");
-            }
-
-            Helper.printLine(
-                    "Неверно введён логин или пароль",
-                    "желаете повторить попытку -> введите 1",
-                    "не желаете повторить попытку -> введите любой из этих символов m,b,x "
-            );
-            int i = input.start().getNextInt();
-            if (i != 1) { b = false; }
-
-        }
-
-        return null;
+    @Override
+    public void messageSuccess() {
+        Helper.printLine("Вы вошли в систему как "+Top.user.getType() + ", теперь вам доступно больше опций");
+        standardMessageSuccess();
+    }
+    @Override
+    public FrameImitation getNextFrame() { return null; }
+    @Override
+    public void messageFailure() {
+        Helper.printLine("Неверно введён логин или пароль");
+        standardMessageFailure();
     }
 }

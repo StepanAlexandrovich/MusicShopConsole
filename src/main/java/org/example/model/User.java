@@ -1,25 +1,35 @@
 package org.example.model;
 
+import org.example.Top;
+
+import java.util.List;
+
 public class User implements ObjectWithId{
     private int id;
-    private String username;
-    private String password;
+    private String name = "";
+    private String password = "";
+    private String type = "";
 
-    public User(int id, String username, String password) {
+    public User(int id, String name, String password, String type) {
         this.id = id;
-        this.username = username;
+        this.name = name;
         this.password = password;
+        this.type = type;
     }
+    public User() {}
+
     @Override
     public int getId() {
         return id;
     }
-
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
-
     public String getPassword() {
         return password;
+    }
+    public String getType() { return type; }
+    public List<Basket> getBaskets(){
+        return Top.basketService.getAllByUserId(id);
     }
 }

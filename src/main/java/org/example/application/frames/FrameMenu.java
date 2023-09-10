@@ -3,34 +3,36 @@ package org.example.application.frames;
 import org.example.Helper;
 import org.example.application.Input;
 import org.example.Top;
+import org.example.application.frames.helpers.FrameImitation;
 
-public class FrameMenu extends FrameImitation{
+public class FrameMenu extends FrameImitation {
     @Override
     public FrameImitation start(Input input) {
         Helper.printLine("ГЛАВНОЕ МЕНЮ",
                 "1 -> получить список жанров",
                 "2 -> получить список композиций",
                 "3 -> получить список исполнителей",
-                "4 -> произвести операции с корзинами",
-                "5 -> войти в систему",
-                "6 -> зарегестрироваться"
+                "4 -> войти в систему",
+                "5 -> зарегестрироваться"
         );
 
-        switch (input.start().getNextInt()){
+        if(Top.customer()){
+            Helper.printLine("6 -> произвести операции с корзинами");
+        }
+
+        input.start();
+
+        switch (input.getNextInt()){
             case 1: return new FrameGenres();
             case 2: return new FrameCompositions();
             case 3: return new FramePerformers();
+            case 4: return new FrameEnter();
+            case 5: // TODO: do it
+        }
 
-            case 4:
-                if(Top.entry()){
-                    return new FrameBaskets();
-                }else{
-                    return new FrameInformation("Вам необходимо зарегестрироваться либо войти в систему что бы получить доступ к корзине");
-                }
-
-                // TODO: при добавлении в баскет предусмотреть количество композиций
-                // TODO: оплата корзины(измен статуса)
-            case 5: return new FrameEnter();
+        if(Top.customer()&&input.getNextInt() == 6){
+            // TODO: оплата корзины(измен статуса)
+            return new FrameBaskets(Top.user.getBaskets());
         }
 
         return null;

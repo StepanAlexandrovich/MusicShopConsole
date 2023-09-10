@@ -1,4 +1,4 @@
-package org.example.application.frames;
+package org.example.application.frames.helpers;
 
 import org.example.application.Input;
 

@@ -1,34 +1,44 @@
 package org.example.application.frames;
 
 import org.example.Helper;
+import org.example.Top;
 import org.example.application.Input;
+import org.example.application.frames.helpers.FrameImitation;
+import org.example.application.frames.helpers.ListCompositionsPrint;
 import org.example.model.Composition;
 import org.example.model.Genre;
-import org.example.Top;
 
-public class FrameGenre extends FrameImitation{
-    private int idGenre;
-    public FrameGenre(int idGenre) {
-        this.idGenre = idGenre;
+import java.util.List;
+
+public class FrameGenre extends FrameImitation {
+    private Genre genre;
+    public FrameGenre(Genre genre) {
+        this.genre = genre;
     }
     @Override
     public FrameImitation start(Input input) {
-        Genre genre = Top.genreService.getById(idGenre);
         Helper.printLine(genre.toString());
-
-        System.out.println("----------------------------------------");
-        System.out.println("СПИСОК ПЕСЕН ОТНОСЯЩИХСЯ К ДАННОМУ ЖАНРУ");
-        for (Composition composition : genre.getCompositions()) {
-            System.out.println(composition.getId()+" "+composition.getName());
-        }
-        System.out.println("----------------------------------------");
+        List<Composition> compositions = genre.getCompositions();
+        ListCompositionsPrint.print("СПИСОК КОМПОЗИЦИЙ ОТНОСЯЩИХСЯ К ДАННОМУ ЖАНРУ",compositions);
 
         Helper.printLine("Что бы выбрать композицию из данного жанра наберите её индекс");
-
-        int i = input.start().getNextInt();
-        if(i>0){
-            return new FrameComposition(i);
+        if(Top.admin()){
+            Helper.printLine("нажмите d (delete) что бы удалить жанр из базы данных");
         }
+
+        input.start();
+
+        if(input.getNextInt()>0){
+            return new FrameComposition(compositions.get(input.getNextInt() - 1));
+        }else
+        if(Top.admin() && input.getNextString().equals("d")){
+            if(Top.genreService.deleteById(genre.getId())!=null){
+                return new FrameInformation("жанр удалён");
+            }else{
+                return new FrameInformation("По неизвестным причинам жанр не удалён");
+            }
+        }
+
         return null;
     }
 }

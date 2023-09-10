@@ -1,16 +1,16 @@
 package org.example.model;
 
-public class BasketComposition implements ObjectWithId{
+import org.example.Top;
+
+public class CompositionBasketRelation implements ObjectWithId{
     private int id;
-    private int count;
+    private int countOfCompositions;
     private int compositionId;
-
     private int basketId;
-    private Composition composition;
 
-    public BasketComposition(int id, int count, int compositionId, int basketId) {
+    public CompositionBasketRelation(int id, int countOfCompositions, int compositionId, int basketId) {
         this.id = id;
-        this.count = count;
+        this.countOfCompositions = countOfCompositions;
         this.compositionId = compositionId;
         this.basketId = basketId;
     }
@@ -19,24 +19,21 @@ public class BasketComposition implements ObjectWithId{
     public int getId() {
         return id;
     }
-    public int getCount() {
-        return count;
+    public int getCountOfCompositions() {
+        return countOfCompositions;
     }
     public int getCompositionId() { return compositionId; }
     public int getBasketId() { return basketId; }
 
     //-----------------------------------//
     public Composition getComposition() {
-        return composition;
-    }
-    public void setComposition(Composition composition) {
-        this.composition = composition;
+        return Top.compositionService.getById(compositionId);
     }
 
     @Override
     public String toString() {
-        return  composition.toString() +
-                ", count=" + count +
+        return  getComposition() +
+                ", count=" + countOfCompositions +
                 '}';
     }
 }

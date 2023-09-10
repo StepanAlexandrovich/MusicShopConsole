@@ -1,7 +1,7 @@
 package org.example.application;
 
 import org.example.Helper;
-import org.example.application.frames.FrameImitation;
+import org.example.application.frames.helpers.FrameImitation;
 import org.example.application.frames.FrameMenu;
 
 import java.util.Scanner;

@@ -1,31 +1,44 @@
 package org.example.services.implementations;
 
 import org.example.model.Composition;
-import org.example.repositories.implementations.CompositionRepositoryImpl;
+import org.example.repositories.implementations.jdbc.CompositionRepositoryJdbcImpl;
+//import org.example.repositories.implementations.txt.CompositionRepositoryImpl;
 import org.example.services.CompositionService;
 import org.example.repositories.*;
-import org.example.repositories.implementations.OneToManyImpl;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class CompositionServiceImpl implements CompositionService {
-    private CompositionRepository compositionRepository = new CompositionRepositoryImpl();
-    private OneToManyImpl<CompositionRepository> oneToMany= new OneToManyImpl<>(compositionRepository,"src/main/resources/compositions.txt");
+    private CompositionRepository compositionRepository = new CompositionRepositoryJdbcImpl();
 
+    //private CompositionRepository compositionRepository = new CompositionRepositoryImpl();
+
+    @Override
+    public List<Composition> getAll() {
+        return compositionRepository.findAll();
+    }
     @Override
     public Composition getById(int id) {
         return compositionRepository.findById(id);
     }
     @Override
     public List<Composition> getAllByGenreId(int id) {
-        return oneToMany.setFirstLast(0,5).list(id);
+        return compositionRepository.findAllByGenreId(id);
     }
     @Override
     public List<Composition> getAllByPerformerId(int id) {
-        return oneToMany.setFirstLast(0,6).list(id);
+        return compositionRepository.findAllByPerformerId(id);
     }
+
     @Override
-    public List<Composition> getAll() {
-        return compositionRepository.findAll();
+    public Composition add(String name, LocalDate dateRelease, double duration, double price, int genreId, int performerId) {
+        return compositionRepository.add(name,dateRelease,duration,price,genreId,performerId);
     }
+
+    @Override
+    public Composition deleteById(int id) {
+        return compositionRepository.deleteById(id);
+    }
+
 }

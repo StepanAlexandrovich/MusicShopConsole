@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Helper {
@@ -34,6 +35,30 @@ public class Helper {
         }
 
         return array;
+    }
+
+    public static String textToQuotes(String text){
+        return "'"+text+"'";
+    }
+
+    public static String commas(String... text){
+        String newText = "";
+        for (int i = 0; i < text.length; i++) {
+            newText += text[i];
+            if(i<text.length - 1){
+                newText += ",";
+            }
+        }
+        return newText;
+    }
+
+    public static void printList(String headline,List list){
+        System.out.println("-------------------------");
+        System.out.println(headline);
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println("" + (i+1) + ") " + list.get(i));
+        }
+        System.out.println("--------------------------");
     }
 
 }

@@ -1,19 +1,18 @@
-package org.example.repositories.implementations;
+package org.example.repositories.implementations.txt;
 
 import org.example.model.Basket;
 import org.example.repositories.BasketRepository;
 import org.example.Top;
+import org.example.repositories.implementations.txt.universal.TakeObjectsFromTxt;
 
 import java.util.List;
 
 public class BasketRepositoryImpl implements BasketRepository {
     String path = "src/main/resources/baskets.txt";
-    CreateObjectFromString<Basket> createObjectFromString = new CreateObjectFromString<Basket>(path) {
+    TakeObjectsFromTxt<Basket> takeObjectsFromTxt = new TakeObjectsFromTxt<Basket>(path) {
         @Override
         public Basket createObject(String line) {
-            Basket basket = createBasketFromWords(line.split(";"));
-            basket.setCompositions(Top.basketCompositionService.getAllByBasketId(basket.getId()));
-            return basket;
+            return createBasketFromWords(line.split(";"));
         }
         private Basket createBasketFromWords(String[] words){
             boolean b = false;
@@ -27,14 +26,16 @@ public class BasketRepositoryImpl implements BasketRepository {
 
     @Override
     public List<Basket> findAll() {
-        return createObjectFromString.findAll();
+        return takeObjectsFromTxt.findAll();
     }
     @Override
     public Basket findById(int id) {
-        return createObjectFromString.findById(id);
+        return takeObjectsFromTxt.findById(id);
     }
     @Override
     public List findByFewId(List<Integer> fewId) {
-        return createObjectFromString.findByFewId(fewId);
+        return takeObjectsFromTxt.findByFewId(fewId);
     }
+    @Override
+    public List<Basket> findAllByUserId(int id) { return takeObjectsFromTxt.list(2,id); }
 }

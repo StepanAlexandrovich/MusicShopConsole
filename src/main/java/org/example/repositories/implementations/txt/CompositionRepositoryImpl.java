@@ -1,7 +1,8 @@
-package org.example.repositories.implementations;
+package org.example.repositories.implementations.txt;
 
 import org.example.model.Composition;
 import org.example.repositories.CompositionRepository;
+import org.example.repositories.implementations.txt.universal.TakeObjectsFromTxt;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 public class CompositionRepositoryImpl<T extends Composition> implements CompositionRepository {
     String path = "src/main/resources/compositions.txt";
 
-    CreateObjectFromString<Composition> createObjectFromString = new CreateObjectFromString<Composition>(path) {
+    TakeObjectsFromTxt<Composition> takeObjectsFromTxt = new TakeObjectsFromTxt<Composition>(path) {
         @Override
         public Composition createObject(String line) {
 
@@ -35,14 +36,36 @@ public class CompositionRepositoryImpl<T extends Composition> implements Composi
     };
     @Override
     public List<Composition> findAll() {
-        return createObjectFromString.findAll();
+        return takeObjectsFromTxt.findAll();
     }
     @Override
     public Composition findById(int id) {
-        return createObjectFromString.findById(id);
+        return takeObjectsFromTxt.findById(id);
     }
     @Override
     public List findByFewId(List fewId) {
-        return createObjectFromString.findByFewId(fewId);
+        return takeObjectsFromTxt.findByFewId(fewId);
+    }
+
+    @Override
+    public List<Composition> findAllByGenreId(int id) {
+        return takeObjectsFromTxt.list(5,id);
+    }
+
+    @Override
+    public List<Composition> findAllByPerformerId(int id) {
+        return takeObjectsFromTxt.list(6,id);
+    }
+
+    @Override
+    public Composition add(String name, LocalDate dateRelease, double duration, double price, int genreId, int performerId) {
+        System.out.println("empty");
+        return null;
+    }
+
+    @Override
+    public Composition deleteById(int id) {
+        System.out.println("empty");
+        return null;
     }
 }
