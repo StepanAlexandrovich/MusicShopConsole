@@ -1,0 +1,6 @@
+1;user1;1;customer
+2;user2;12;customer
+3;user3;123;customer
+4;admin1;1;admin
+5;admin2;12;admin
+6;admin3;123;admin
